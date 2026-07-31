@@ -2,10 +2,16 @@ import { ArrowUpRight, Github, ExternalLink, Sparkles } from "lucide-react";
 import bgc from "@/assets/project-bgc.jpg";
 import etl from "@/assets/ETL.jpg";
 import dash from "@/assets/project-dashboard.jpg";
+import coords from "@/assets/imgsgbc.jpg";
 import { Reveal, Section } from "./primitives";
 import { futureProjects, projects } from "@/data/portfolio";
 
-const images = [bgc, etl, dash];
+const images: Record<string, string> = {
+  "BGC-Appsy": bgc,
+  "Sistema ETL": etl,
+  "Dashboard Metabase": dash,
+  "Desarrollo de Sistema de Agregación de Coordenadas": coords,
+};
 
 export function Projects() {
   return (
@@ -20,14 +26,18 @@ export function Projects() {
           <Reveal key={p.name} delay={i * 0.08}>
             <article className="glass card-hover group flex h-full flex-col overflow-hidden rounded-3xl">
               <div className="relative aspect-[16/10] overflow-hidden">
-                <img
-                  src={images[i]}
-                  alt={`Vista previa del proyecto ${p.name}`}
-                  loading="lazy"
-                  width={1280}
-                  height={800}
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
+                {images[p.name] ? (
+                  <img
+                    src={images[p.name]}
+                    alt={`Vista previa del proyecto ${p.name}`}
+                    loading="lazy"
+                    width={1280}
+                    height={800}
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                ) : (
+                  <div className="bg-gradient-brand h-full w-full" />
+                )}
                 <div className="from-background absolute inset-0 bg-gradient-to-t via-transparent to-transparent" />
                 <span className="glass absolute top-4 left-4 rounded-full px-3 py-1 text-[11px] font-medium">
                   {p.status}

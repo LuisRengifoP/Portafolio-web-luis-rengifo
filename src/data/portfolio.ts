@@ -51,6 +51,11 @@ export const floatingTech = [
 
 export const education = [
   {
+    title: "Maestría en Análisis y Visualización de Datos Masivos",
+    place: "La Unir México",
+    detail: "En curso",
+  },
+  {
     title: "Ingeniería de Sistemas",
     place: "Institución Universitaria de Envigado",
     detail: "Graduado",
@@ -68,6 +73,19 @@ export const languages = [
 ];
 
 export const experience = [
+  {
+    year: "Actual",
+    company: "Provecol Antioquia S.A.S.",
+    role: "Desarrollador de Software",
+    tasks: [
+      "Desarrollo de soluciones de software",
+      "Automatización de procesos internos",
+      "Análisis y gestión de información",
+      "Herramientas de análisis de datos",
+      "Solución de incidencias técnicas",
+      "Mantenimiento de aplicaciones internas",
+    ],
+  },
   {
     year: "2023",
     company: "EMTELCO",
@@ -151,22 +169,36 @@ export const projects = [
     description:
       "Sistema inteligente de georreferenciación para administración y visualización de activos en campo.",
     features: ["Mapas en tiempo real", "Gestión de activos", "Reportes", "Roles de usuario"],
-    tech: ["React", "Node.js", "Firebase", "Google Maps API"],
+    tech: ["React", "Node.js", "Google Maps API"],
   },
   {
     name: "Sistema ETL",
     status: "Finalizado",
     description:
-      "Sistema desarrollado para transformar automáticamente inventarios provenientes de diferentes sucursales.",
+      "Sistema que automatiza la recepción, transformación, validación y carga de información proveniente de múltiples archivos de inventario hacia una base de datos centralizada.",
     features: ["Normalización", "Homologación", "Limpieza", "Automatización"],
-    tech: ["Python", "Pandas", "MySQL"],
+    tech: ["Python", "Flask", "Pandas", "Google Drive API", "IMAP API"],
   },
   {
     name: "Dashboard Metabase",
     status: "Activo",
-    description: "Dashboards ejecutivos para análisis de indicadores clave del negocio.",
+    description:
+      "La información es almacenada en BigQuery, las consultas se realizan mediante SQL y Metabase se utiliza para la construcción de dashboards, indicadores (KPIs) y reportes para el análisis del negocio.",
     features: ["KPIs ejecutivos", "Modelado de datos", "Automatización de reportes"],
-    tech: ["Power BI", "Metabase", "SQL"],
+    tech: ["BigQuery", "SQL", "Metabase"],
+  },
+  {
+    name: "Desarrollo de Sistema de Agregación de Coordenadas",
+    status: "Activo",
+    description:
+      "Plataforma desarrollada para automatizar el proceso de georreferenciación de clientes, permitiendo obtener, validar y administrar coordenadas geográficas de forma masiva, optimizando el tiempo de procesamiento y mejorando la calidad de la información geoespacial utilizada por la empresa.",
+    features: [
+      "Obtención de coordenadas",
+      "Validación geográfica",
+      "Administración masiva",
+      "Optimización de procesamiento",
+    ],
+    tech: ["React", "Node.js", "Google Maps API"],
   },
 ];
 
