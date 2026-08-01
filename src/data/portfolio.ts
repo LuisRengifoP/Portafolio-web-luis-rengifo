@@ -170,6 +170,7 @@ export const projects = [
       "Sistema inteligente de georreferenciación para administración y visualización de activos en campo.",
     features: ["Mapas en tiempo real", "Gestión de activos", "Reportes", "Roles de usuario"],
     tech: ["React", "Node.js", "Google Maps API"],
+    github: "https://github.com/LuisRengifoP/BGC-Appsy",
   },
   {
     name: "Sistema ETL",
@@ -178,6 +179,7 @@ export const projects = [
       "Sistema que automatiza la recepción, transformación, validación y carga de información proveniente de múltiples archivos de inventario hacia una base de datos centralizada.",
     features: ["Normalización", "Homologación", "Limpieza", "Automatización"],
     tech: ["Python", "Flask", "Pandas", "Google Drive API", "IMAP API"],
+    github: "https://github.com/LuisRengifoP/Sistema-ETL-Appsy",
   },
   {
     name: "Dashboard Metabase",
@@ -186,6 +188,8 @@ export const projects = [
       "La información es almacenada en BigQuery, las consultas se realizan mediante SQL y Metabase se utiliza para la construcción de dashboards, indicadores (KPIs) y reportes para el análisis del negocio.",
     features: ["KPIs ejecutivos", "Modelado de datos", "Automatización de reportes"],
     tech: ["BigQuery", "SQL", "Metabase"],
+    github:
+      "https://github.com/LuisRengifoP/Manual_Tecnico_Appsy/blob/main/Manual_Tecnico_AppsyBI.md",
   },
   {
     name: "Desarrollo de Sistema de Agregación de Coordenadas",
@@ -199,6 +203,7 @@ export const projects = [
       "Optimización de procesamiento",
     ],
     tech: ["React", "Node.js", "Google Maps API"],
+    github: "https://github.com/LuisRengifoP/Sistema-de-agregaci-n-de-coordenadas-",
   },
 ];
 

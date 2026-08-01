@@ -78,7 +78,7 @@ export function Projects() {
                     Ver Proyecto <ArrowUpRight className="h-3.5 w-3.5" />
                   </a>
                   <a
-                    href="https://github.com/LuisRengifoP"
+                    href={p.github}
                     target="_blank"
                     rel="noreferrer"
                     className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-xs transition-colors"
