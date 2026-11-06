@@ -18,11 +18,11 @@ export const profile = {
     "AI Enthusiast",
   ],
   description:
-    "Ingeniero de Sistemas apasionado por transformar datos en soluciones tecnológicas de alto impacto. Especializado en desarrollo web, Business Intelligence, análisis de datos, automatización de procesos y desarrollo de soluciones basadas en Inteligencia Artificial.",
+    "Ingeniero de Sistemas con experiencia en el desarrollo y mantenimiento de plataformas internas, implementación de APIs REST y automatización de procesos para entornos empresariales. Trabajo con Node.js, NestJS, React, Python y PostgreSQL, y construyo procesos ETL y paneles de Business Intelligence con Power BI.",
   description2:
     "Mi objetivo es construir herramientas que optimicen procesos y ayuden a las empresas a tomar mejores decisiones mediante el uso de la tecnología.",
   story: [
-    "Soy Ingeniero de Sistemas con experiencia en desarrollo Full Stack, Business Intelligence y análisis de datos.",
+    "Soy Ingeniero de Sistemas con experiencia en desarrollo Full Stack, Business Intelligence y análisis de datos. He participado en el ciclo completo de desarrollo de software: levantamiento de requerimientos, diseño de bases de datos, implementación, pruebas y despliegue con Docker.",
     "Me apasiona crear soluciones tecnológicas que automaticen procesos, optimicen operaciones y faciliten la toma de decisiones mediante datos.",
     "Disfruto aprender nuevas tecnologías y desarrollar proyectos que generen valor real para las empresas.",
   ],
@@ -58,7 +58,7 @@ export const education = [
   {
     title: "Ingeniería de Sistemas",
     place: "Institución Universitaria de Envigado",
-    detail: "Graduado",
+    detail: "Graduado · Diciembre 2024",
   },
   {
     title: "Bachiller",
@@ -74,49 +74,45 @@ export const languages = [
 
 export const experience = [
   {
-    year: "Actual",
+    year: "Mar 2026 – Actualidad",
     company: "Provecol Antioquia S.A.S.",
-    role: "Desarrollador de Software",
+    role: "Desarrollador de Software · Itagüí",
     tasks: [
-      "Desarrollo de soluciones de software",
-      "Automatización de procesos internos",
-      "Análisis y gestión de información",
-      "Herramientas de análisis de datos",
-      "Solución de incidencias técnicas",
-      "Mantenimiento de aplicaciones internas",
+      "Desarrollo y mantenimiento de plataformas internas para la gestión operativa del grupo empresarial",
+      "Diseño e implementación de APIs REST y operaciones CRUD sobre PostgreSQL",
+      "Automatización de procesos con Python, pandas y openpyxl, incluida geocodificación",
+      "Interfaces web con React 19, Vite y Tailwind CSS v4",
+      "Levantamiento de requerimientos, diseño de bases de datos y despliegue con Docker",
     ],
   },
   {
-    year: "2023",
+    year: "Abr 2025 – Ago 2025",
     company: "EMTELCO",
-    role: "Practicante de Licenciamiento y Gestión",
+    role: "Asesor de Fidelización y Soporte",
     tasks: [
-      "Documentación",
-      "Análisis de información",
-      "Gestión de requerimientos",
-      "Optimización de procesos",
+      "Atención y retención de usuarios",
+      "Resolución de incidencias",
+      "Cumplimiento de indicadores de nivel de servicio (SLA)",
     ],
   },
   {
-    year: "2024",
+    year: "Nov 2024 – Dic 2024",
     company: "DANE",
-    role: "Censista",
+    role: "Censista de Barrido / Calidad de Datos",
     tasks: [
-      "Recolección de información",
-      "Validación de datos",
-      "Trabajo de campo",
-      "Calidad de información",
+      "Recolección y validación de información para el Censo Económico Nacional Urbano",
+      "Verificación de integridad y consistencia de registros digitales",
+      "Cumplimiento de protocolos estadísticos",
     ],
   },
   {
-    year: "2025",
+    year: "Ago 2023 – Feb 2024",
     company: "EMTELCO",
-    role: "Asesor de Fidelización",
+    role: "Practicante de Licenciamiento y Gestión de TI",
     tasks: [
-      "Retención de clientes",
-      "Atención de casos",
-      "Cumplimiento de indicadores",
-      "Soluciones personalizadas",
+      "Control, validación y gestión de licencias corporativas de software",
+      "Optimización de flujos operativos",
+      "Seguimiento centralizado de requerimientos de clientes internos",
     ],
   },
 ];
@@ -126,14 +122,17 @@ export const skillGroups = [
     title: "Frontend",
     items: ["React", "Next.js", "HTML5", "CSS3", "Tailwind", "JavaScript", "TypeScript"],
   },
-  { title: "Backend", items: ["Python", "Node.js", "Laravel", "PHP", "Express"] },
+  {
+    title: "Backend",
+    items: ["Python", "Node.js", "NestJS", "FastAPI", "Laravel", "PHP", "Java", "Express"],
+  },
   {
     title: "Bases de datos",
     items: ["PostgreSQL", "MySQL", "MongoDB", "SQL Server", "Oracle"],
   },
   {
     title: "Business Intelligence",
-    items: ["Power BI", "Metabase", "Tableau", "Excel", "Power Query"],
+    items: ["Power BI", "ETL", "pandas", "Metabase", "Tableau", "Excel", "Power Query"],
   },
   { title: "Inteligencia Artificial", items: ["OpenAI", "Claude", "Gemini", "Kimi"] },
 ];
@@ -144,10 +143,13 @@ export const technologies = [
   "TypeScript",
   "SQL",
   "PHP",
+  "Java",
   "React",
   "Next.js",
   "Laravel",
   "Node.js",
+  "NestJS",
+  "FastAPI",
   "MongoDB",
   "MySQL",
   "PostgreSQL",
@@ -156,6 +158,8 @@ export const technologies = [
   "Docker",
   "Git",
   "GitHub",
+  "Postman",
+  "pandas",
   "Power BI",
   "Metabase",
   "Tableau",
@@ -163,6 +167,15 @@ export const technologies = [
 ];
 
 export const projects = [
+  {
+    name: "AppsyOne",
+    status: "2026",
+    description:
+      "Plataforma integral de gestión empresarial, operaciones y analítica que integra los procesos de la empresa en una sola solución.",
+    features: ["Gestión empresarial", "Operaciones", "Analítica", "Cliente de escritorio"],
+    tech: ["NestJS", "PostgreSQL", "React", "Tauri v2"],
+    github: "",
+  },
   {
     name: "BGC-Appsy",
     status: "En producción",
@@ -173,11 +186,16 @@ export const projects = [
     github: "https://github.com/LuisRengifoP/BGC-Appsy",
   },
   {
-    name: "Sistema ETL",
-    status: "Finalizado",
+    name: "ETL de Conciliación de Inventarios",
+    status: "Finalizado · 2026",
     description:
-      "Sistema que automatiza la recepción, transformación, validación y carga de información proveniente de múltiples archivos de inventario hacia una base de datos centralizada.",
-    features: ["Normalización", "Homologación", "Limpieza", "Automatización"],
+      "Sistema web que extrae información de inventarios mediante IMAP o carga manual, transforma y valida los datos y genera los inventarios en el formato estándar de DistriApp, con exportación a Excel.",
+    features: [
+      "Extracción por IMAP o carga manual",
+      "Normalización y homologación",
+      "Formato estándar DistriApp",
+      "Exportación a Excel",
+    ],
     tech: ["Python", "Flask", "Pandas", "Google Drive API", "IMAP API"],
     github: "https://github.com/LuisRengifoP/Sistema-ETL-Appsy",
   },
@@ -192,17 +210,17 @@ export const projects = [
       "https://github.com/LuisRengifoP/Manual_Tecnico_Appsy/blob/main/Manual_Tecnico_AppsyBI.md",
   },
   {
-    name: "Desarrollo de Sistema de Agregación de Coordenadas",
-    status: "Activo",
+    name: "SBCG – Sistema de Búsqueda de Coordenadas Geográficas",
+    status: "Activo · 2026",
     description:
-      "Plataforma desarrollada para automatizar el proceso de georreferenciación de clientes, permitiendo obtener, validar y administrar coordenadas geográficas de forma masiva, optimizando el tiempo de procesamiento y mejorando la calidad de la información geoespacial utilizada por la empresa.",
+      "Herramienta que cruza la información de rutas con una base maestra de clientes y obtiene coordenadas geográficas mediante Google Maps, automatizando la georreferenciación masiva de clientes.",
     features: [
       "Obtención de coordenadas",
       "Validación geográfica",
       "Administración masiva",
       "Optimización de procesamiento",
     ],
-    tech: ["React", "Node.js", "Google Maps API"],
+    tech: ["FastAPI", "SQLite", "openpyxl", "Google Maps API"],
     github: "https://github.com/LuisRengifoP/Sistema-de-agregaci-n-de-coordenadas-",
   },
 ];
@@ -216,9 +234,15 @@ export const futureProjects = [
 ];
 
 export const certifications = [
-  { title: "Microsoft Power BI Data Analyst Associate", issuer: "Microsoft" },
-  { title: "Introducción a la Ciencia de Datos", issuer: "IE University" },
-  { title: "Inteligencia Artificial y Productividad", issuer: "Google" },
+  { title: "Microsoft Power BI Data Analyst Associate", issuer: "Microsoft · Octubre 2024" },
+  {
+    title: "Introducción a la Ciencia de Datos",
+    issuer: "IE University / Santander Open Academy · Agosto 2024",
+  },
+  {
+    title: "Inteligencia Artificial y Productividad",
+    issuer: "Google / Santander Open Academy · Agosto 2024",
+  },
 ];
 
 export const blogTopics = [
@@ -265,7 +289,10 @@ export const blogTopics = [
 ];
 
 export const socials = [
-  { name: "LinkedIn", href: "https://www.linkedin.com/in/luis-fernando-rengifo-palacios-b2a5bb1b9/" },
+  {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/in/luis-fernando-rengifo-palacios-b2a5bb1b9/",
+  },
   { name: "GitHub", href: "https://github.com/LuisRengifoP" },
   { name: "Instagram", href: "https://www.instagram.com/luis_rengifo24/" },
   { name: "Correo", href: "mailto:nandorengifo07@gmail.com" },

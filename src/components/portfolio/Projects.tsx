@@ -8,9 +8,9 @@ import { futureProjects, projects } from "@/data/portfolio";
 
 const images: Record<string, string> = {
   "BGC-Appsy": bgc,
-  "Sistema ETL": etl,
+  "ETL de Conciliación de Inventarios": etl,
   "Dashboard Metabase": dash,
-  "Desarrollo de Sistema de Agregación de Coordenadas": coords,
+  "SBCG – Sistema de Búsqueda de Coordenadas Geográficas": coords,
 };
 
 export function Projects() {
@@ -77,14 +77,16 @@ export function Projects() {
                   >
                     Ver Proyecto <ArrowUpRight className="h-3.5 w-3.5" />
                   </a>
-                  <a
-                    href={p.github}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-xs transition-colors"
-                  >
-                    <Github className="h-3.5 w-3.5" /> GitHub
-                  </a>
+                  {p.github && (
+                    <a
+                      href={p.github}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-xs transition-colors"
+                    >
+                      <Github className="h-3.5 w-3.5" /> GitHub
+                    </a>
+                  )}
                   <a
                     href="#proyectos"
                     className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-xs transition-colors"
