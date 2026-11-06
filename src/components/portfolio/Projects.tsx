@@ -3,10 +3,12 @@ import bgc from "@/assets/project-bgc.jpg";
 import etl from "@/assets/ETL.jpg";
 import dash from "@/assets/project-dashboard.jpg";
 import coords from "@/assets/imgsgbc.jpg";
+import appsyone from "@/assets/project-appsyone.jpg";
 import { Reveal, Section } from "./primitives";
 import { futureProjects, projects } from "@/data/portfolio";
 
 const images: Record<string, string> = {
+  AppsyOne: appsyone,
   "BGC-Appsy": bgc,
   "ETL de Conciliación de Inventarios": etl,
   "Dashboard Metabase": dash,
