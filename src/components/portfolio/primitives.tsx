@@ -1,11 +1,13 @@
-import { motion, useInView } from "motion/react";
+import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
+import { ArrowUp } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 /* ---------- Scroll reveal ---------- */
 export function Reveal({
   children,
   delay = 0,
-  y = 24,
+  y = 20,
   className = "",
 }: {
   children: ReactNode;
@@ -14,14 +16,20 @@ export function Reveal({
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const prefersReduced = useReducedMotion();
+
+  if (prefersReduced) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <motion.div
       ref={ref}
       className={className}
       initial={{ opacity: 0, y }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </motion.div>
@@ -34,29 +42,43 @@ export function Section({
   eyebrow,
   title,
   subtitle,
+  action,
   children,
+  className,
 }: {
   id: string;
   eyebrow?: string;
   title?: string;
   subtitle?: string;
+  action?: ReactNode;
   children: ReactNode;
+  className?: string;
 }) {
   return (
-    <section id={id} className="relative mx-auto w-full max-w-6xl px-6 py-24 md:py-32">
-      {(eyebrow || title) && (
-        <Reveal className="mb-14 max-w-2xl">
-          {eyebrow && (
-            <span className="text-gradient font-display text-xs font-semibold tracking-[0.3em] uppercase">
-              {eyebrow}
-            </span>
-          )}
-          {title && (
-            <h2 className="mt-3 text-4xl font-semibold md:text-5xl">
-              {title}
-            </h2>
-          )}
-          {subtitle && <p className="mt-4 text-muted-foreground md:text-lg">{subtitle}</p>}
+    <section
+      id={id}
+      className={cn("relative mx-auto w-full max-w-6xl px-5 py-20 sm:px-6 md:py-28", className)}
+    >
+      {(eyebrow || title || action) && (
+        <Reveal className="mb-12 flex flex-col gap-6 md:mb-14 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-2xl">
+            {eyebrow && (
+              <span className="text-gradient font-display inline-block text-xs font-semibold tracking-[0.28em] uppercase">
+                {eyebrow}
+              </span>
+            )}
+            {title && (
+              <h2 className="mt-2.5 text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
+                {title}
+              </h2>
+            )}
+            {subtitle && (
+              <p className="mt-3.5 text-base leading-relaxed text-muted-foreground md:text-lg">
+                {subtitle}
+              </p>
+            )}
+          </div>
+          {action && <div className="shrink-0">{action}</div>}
         </Reveal>
       )}
       {children}
@@ -64,17 +86,60 @@ export function Section({
   );
 }
 
+/* ---------- Semantic status badge ---------- */
+export function StatusBadge({
+  label,
+  tone = "active",
+  className,
+}: {
+  label: string;
+  tone?: "live" | "done" | "active" | "warning";
+  className?: string;
+}) {
+  const styles = {
+    live: "border-emerald-400/30 bg-emerald-500/15 text-emerald-200",
+    done: "border-sky-400/30 bg-sky-500/15 text-sky-200",
+    active: "border-brand-purple/40 bg-brand-purple/20 text-foreground",
+    warning: "border-amber-400/30 bg-amber-500/15 text-amber-200",
+  }[tone];
+
+  const dot = {
+    live: "bg-emerald-400",
+    done: "bg-sky-400",
+    active: "bg-brand-pink",
+    warning: "bg-amber-400",
+  }[tone];
+
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[11px] font-medium backdrop-blur-md",
+        styles,
+        className,
+      )}
+    >
+      <span className={cn("h-1.5 w-1.5 rounded-full", dot)} aria-hidden />
+      {label}
+    </span>
+  );
+}
+
 /* ---------- Animated counter ---------- */
 export function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true });
+  const prefersReduced = useReducedMotion();
   const [value, setValue] = useState(0);
 
   useEffect(() => {
     if (!inView) return;
+    if (prefersReduced) {
+      setValue(to);
+      return;
+    }
     let raf = 0;
     const start = performance.now();
-    const dur = 1400;
+    const dur = 1100;
     const tick = (now: number) => {
       const p = Math.min((now - start) / dur, 1);
       setValue(Math.round(to * (1 - Math.pow(1 - p, 3))));
@@ -82,10 +147,13 @@ export function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [inView, to]);
+  }, [inView, to, prefersReduced]);
 
   return (
-    <span ref={ref} className="text-gradient font-display text-4xl font-bold md:text-5xl">
+    <span
+      ref={ref}
+      className="text-gradient font-display text-3xl font-bold sm:text-4xl md:text-5xl"
+    >
       {value}
       {suffix}
     </span>
@@ -94,11 +162,13 @@ export function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
 
 /* ---------- Typing effect ---------- */
 export function Typing({ words }: { words: string[] }) {
+  const prefersReduced = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [text, setText] = useState("");
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
+    if (prefersReduced) return;
     const current = words[index % words.length];
     const done = !deleting && text === current;
     const empty = deleting && text === "";
@@ -117,16 +187,90 @@ export function Typing({ words }: { words: string[] }) {
         setText((prev) =>
           deleting ? current.slice(0, prev.length - 1) : current.slice(0, prev.length + 1),
         ),
-      deleting ? 35 : 70,
+      deleting ? 32 : 65,
     );
     return () => clearTimeout(t);
-  }, [text, deleting, index, words]);
+  }, [text, deleting, index, words, prefersReduced]);
+
+  if (prefersReduced) {
+    return (
+      <span className="font-display text-lg font-medium sm:text-xl md:text-2xl">
+        <span className="text-gradient">{words[0]}</span>
+      </span>
+    );
+  }
 
   return (
-    <span className="font-display text-xl font-medium md:text-2xl">
-      <span className="text-gradient">{text}</span>
-      <span className="caret text-brand-pink">|</span>
+    <span className="font-display text-lg font-medium sm:text-xl md:text-2xl" aria-live="off">
+      <span className="text-gradient">{text || "\u00A0"}</span>
+      <span className="caret text-brand-pink" aria-hidden>
+        |
+      </span>
     </span>
+  );
+}
+
+/* ---------- Reading scroll progress bar ---------- */
+export function ScrollProgressBar() {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const update = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(docHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / docHeight) * 100)) : 0);
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-[2px] bg-transparent"
+    >
+      <div
+        className="bg-gradient-brand h-full transition-[width] duration-75"
+        style={{ width: `${progress}%` }}
+      />
+    </div>
+  );
+}
+
+/* ---------- Back to top button ---------- */
+export function BackToTop() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 520);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <AnimatePresence>
+      {visible && (
+        <motion.button
+          type="button"
+          initial={{ opacity: 0, y: 12, scale: 0.92 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 12, scale: 0.92 }}
+          transition={{ duration: 0.2 }}
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          aria-label="Volver al inicio"
+          title="Volver arriba"
+          className="glass-elevated focus-ring fixed right-5 bottom-5 z-40 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full text-foreground transition-colors hover:border-brand-purple/60 hover:text-white sm:right-7 sm:bottom-7"
+        >
+          <ArrowUp className="h-4 w-4" />
+        </motion.button>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -135,6 +279,9 @@ export function AnimatedBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    const reducedMedia = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (reducedMedia.matches) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -144,13 +291,13 @@ export function AnimatedBackground() {
     let w = (canvas.width = window.innerWidth);
     let h = (canvas.height = window.innerHeight);
 
-    const count = Math.min(90, Math.floor(w / 16));
+    const count = Math.min(56, Math.max(24, Math.floor(w / 26)));
     const dots = Array.from({ length: count }, () => ({
       x: Math.random() * w,
       y: Math.random() * h,
-      vx: (Math.random() - 0.5) * 0.25,
-      vy: (Math.random() - 0.5) * 0.25,
-      r: Math.random() * 1.6 + 0.4,
+      vx: (Math.random() - 0.5) * 0.22,
+      vy: (Math.random() - 0.5) * 0.22,
+      r: Math.random() * 1.4 + 0.5,
     }));
 
     const onResize = () => {
@@ -160,6 +307,10 @@ export function AnimatedBackground() {
     window.addEventListener("resize", onResize);
 
     const draw = () => {
+      if (document.hidden) {
+        raf = requestAnimationFrame(draw);
+        return;
+      }
       ctx.clearRect(0, 0, w, h);
       for (const d of dots) {
         d.x += d.vx;
@@ -168,7 +319,7 @@ export function AnimatedBackground() {
         if (d.y < 0 || d.y > h) d.vy *= -1;
         ctx.beginPath();
         ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(203,213,225,0.45)";
+        ctx.fillStyle = "rgba(203,213,225,0.38)";
         ctx.fill();
       }
       for (let i = 0; i < dots.length; i++) {
@@ -176,11 +327,11 @@ export function AnimatedBackground() {
           const dx = dots[i].x - dots[j].x;
           const dy = dots[i].y - dots[j].y;
           const dist = Math.hypot(dx, dy);
-          if (dist < 130) {
+          if (dist < 120) {
             ctx.beginPath();
             ctx.moveTo(dots[i].x, dots[i].y);
             ctx.lineTo(dots[j].x, dots[j].y);
-            ctx.strokeStyle = `rgba(124,58,237,${0.18 * (1 - dist / 130)})`;
+            ctx.strokeStyle = `rgba(124,58,237,${0.14 * (1 - dist / 120)})`;
             ctx.lineWidth = 1;
             ctx.stroke();
           }
@@ -199,18 +350,18 @@ export function AnimatedBackground() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
       <div className="absolute inset-0 bg-background" />
-      <div className="aurora bg-brand-blue/25 absolute -top-40 -left-40 h-[38rem] w-[38rem] rounded-full blur-[140px]" />
+      <div className="aurora bg-brand-blue/20 absolute -top-40 -left-40 h-[36rem] w-[36rem] rounded-full blur-[140px]" />
       <div
-        className="aurora bg-brand-purple/25 absolute top-1/3 -right-40 h-[34rem] w-[34rem] rounded-full blur-[150px]"
+        className="aurora bg-brand-purple/20 absolute top-1/3 -right-40 h-[32rem] w-[32rem] rounded-full blur-[150px]"
         style={{ animationDelay: "3s" }}
       />
       <div
-        className="aurora bg-brand-pink/15 absolute bottom-0 left-1/3 h-[30rem] w-[30rem] rounded-full blur-[150px]"
+        className="aurora bg-brand-pink/12 absolute bottom-0 left-1/3 h-[28rem] w-[28rem] rounded-full blur-[150px]"
         style={{ animationDelay: "6s" }}
       />
-      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full opacity-70" />
+      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full opacity-60" />
       <div
-        className="absolute inset-0 opacity-[0.05]"
+        className="absolute inset-0 opacity-[0.04]"
         style={{
           backgroundImage:
             "linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px)",
@@ -221,13 +372,19 @@ export function AnimatedBackground() {
   );
 }
 
-/* ---------- Custom cursor ---------- */
+/* ---------- Custom cursor (subtle, reduced-motion safe) ---------- */
 export function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (window.matchMedia("(pointer: coarse)").matches) return;
+    if (
+      window.matchMedia("(pointer: coarse)").matches ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
     let x = window.innerWidth / 2;
     let y = window.innerHeight / 2;
     let rx = x;
@@ -237,29 +394,39 @@ export function CustomCursor() {
     const onMove = (e: MouseEvent) => {
       x = e.clientX;
       y = e.clientY;
+      setVisible(true);
       if (dotRef.current) dotRef.current.style.transform = `translate3d(${x - 3}px, ${y - 3}px, 0)`;
     };
+    const onLeave = () => setVisible(false);
     const loop = () => {
-      rx += (x - rx) * 0.15;
-      ry += (y - ry) * 0.15;
+      rx += (x - rx) * 0.18;
+      ry += (y - ry) * 0.18;
       if (ringRef.current)
-        ringRef.current.style.transform = `translate3d(${rx - 18}px, ${ry - 18}px, 0)`;
+        ringRef.current.style.transform = `translate3d(${rx - 16}px, ${ry - 16}px, 0)`;
       raf = requestAnimationFrame(loop);
     };
-    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mousemove", onMove, { passive: true });
+    document.addEventListener("mouseleave", onLeave);
     loop();
     return () => {
       window.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseleave", onLeave);
       cancelAnimationFrame(raf);
     };
   }, []);
 
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 z-[100] hidden md:block">
+    <div
+      aria-hidden
+      className={cn(
+        "pointer-events-none fixed inset-0 z-[100] hidden transition-opacity duration-200 md:block",
+        visible ? "opacity-100" : "opacity-0",
+      )}
+    >
       <div ref={dotRef} className="bg-brand-pink absolute h-1.5 w-1.5 rounded-full" />
       <div
         ref={ringRef}
-        className="border-brand-purple/60 absolute h-9 w-9 rounded-full border transition-colors"
+        className="border-brand-purple/45 absolute h-8 w-8 rounded-full border transition-colors"
       />
     </div>
   );

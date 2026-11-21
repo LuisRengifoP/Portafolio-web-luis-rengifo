@@ -6,28 +6,31 @@ import {
   useRouter,
   HeadContent,
   Scripts,
+  type ErrorComponentProps,
 } from "@tanstack/react-router";
+import { MotionConfig } from "motion/react";
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
+      <div className="glass max-w-md rounded-3xl p-8 text-center">
+        <h1 className="text-gradient text-7xl font-bold">404</h1>
+        <h2 className="mt-4 text-xl font-semibold text-foreground">Página no encontrada</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
+          La ruta que buscas no existe o fue movida.
         </p>
         <div className="mt-6">
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="btn-primary focus-ring inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-medium"
           >
-            Go home
+            Volver al inicio
           </Link>
         </div>
       </div>
@@ -35,7 +38,7 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
@@ -44,28 +47,29 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
+      <div className="glass max-w-md rounded-3xl p-8 text-center">
         <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
+          No pudimos cargar esta página
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
+          Ocurrió un error inesperado. Puedes intentar recargar o volver al inicio.
         </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
           <button
+            type="button"
             onClick={() => {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="btn-primary focus-ring inline-flex cursor-pointer items-center justify-center rounded-full px-5 py-2.5 text-sm font-medium"
           >
-            Try again
+            Reintentar
           </button>
           <a
             href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+            className="btn-secondary focus-ring inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-medium"
           >
-            Go home
+            Ir al inicio
           </a>
         </div>
       </div>
@@ -82,7 +86,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Portafolio profesional de Luis Fernando Rengifo Palacios, Ingeniero de Sistemas y BI Developer.",
+          "Portafolio profesional de Luis Fernando Rengifo Palacios: Ingeniero de Sistemas, Desarrollador de Software, Datos y Automatización.",
       },
       { name: "author", content: "Luis Fernando Rengifo Palacios" },
       { property: "og:type", content: "website" },
@@ -115,7 +119,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="es">
       <head>
         <HeadContent />
       </head>
@@ -132,9 +136,13 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
-      <Toaster position="top-right" />
+      <MotionConfig reducedMotion="user">
+        <TooltipProvider delayDuration={180}>
+          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+          <Outlet />
+          <Toaster position="top-right" richColors />
+        </TooltipProvider>
+      </MotionConfig>
     </QueryClientProvider>
   );
 }
